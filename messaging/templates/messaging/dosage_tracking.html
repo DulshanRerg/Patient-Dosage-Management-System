@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Dosage Tracking</h2>
+    <table>
+        <tr>
+            <th> User </th>
+            <th> Medicine </th>
+            <th> Time </th>
+            <th> Quantity </th>
+            <th> Status </th>
+        </tr>
+        {% for dosage in dosages %}
+        <tr>
+            <td>{{ dosage.user.name }}</td>
+            <td>{{ dosage.medicine.name }}</td>
+            <td>{{ dosage.dosage_time }}</td>
+            <td>{{ dosage.dosage_quantity }}</td>
+            <td>{{ dosage.status }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock  %}

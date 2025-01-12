@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+Send Messages
+{% endblock %}
+{% block content %}
+<div class="container mt-3">
+    <h2>Send Message(s)</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="patients" class="form-label">Select Patients</label>
+            <select class="form-select" id="patients" name="patients" multiple>
+                {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.name }}</option>
+                {% endfor %}
+            </select>
+            <small class="form-text text-muted">Hold Ctrl (or Cmd on Mac) to select multiple patients.</small>
+        </div>
+
+        <div class="mb-3">
+            <label for="message" class="form-label">Message Content</label>
+            <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="schedule_time" class="form-label">Schedule for Later (Optional)</label>
+            <input type="datetime-local" class="form-control" id="schedule_time" name="schedule_time">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send Message</button>
+    </form>
+</div>
+{% endblock %}

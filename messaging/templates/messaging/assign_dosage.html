@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Assign Dosage
+{% endblock %}
+
+{% block content %}
+<div class="container mt-3">
+    <h2>Assign Dosage</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="patient" class="form-label">Patient</label>
+            <select class="form-select" id="patient" name="patient" required>
+                {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="medicine" class="form-label">Medicine</label>
+            <select class="form-select" id="medicine" name="medicine" required>
+                {% for medicine in medicines %}
+                <option value="{{ medicine.id }}">{{ medicine.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Assign Dosage</button>
+    </form>
+</div>
+{% endblock %}

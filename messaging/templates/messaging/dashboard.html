@@ -1,0 +1,192 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        {% comment %} body {
+            display: flex;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        } {% endcomment %}
+        h1{
+            font-size: 25px;
+        }
+        .dashboard-header {
+            padding: 20px;
+            background: #375439;
+            color: white;
+            text-align: center;
+            font-size: 15px;
+        }
+        .card {
+            margin-bottom: 20px;
+        }
+        {% comment %} /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #343a40;
+            color: white;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+        }
+
+        .sidebar.show {
+            left: 0;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid #495057;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+        }
+        /* Content Styles */
+        .content {
+            flex-grow: 1;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .content.with-sidebar {
+            margin-left: 250px;
+        }
+        /* Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-btn:hover {
+            background: #0056b3;
+        } {% endcomment %}
+    </style>
+</head>
+<body>
+     {% comment %} <!-- Sidebar -->
+     <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="#add-patient">Add Patient</a></li>
+            <li><a href="#add-medicine">Add Medicine</a></li>
+            <li><a href="#assign-dosage">Assign Dosage</a></li>
+            <li><a href="#send-messages">Send Messages</a></li>
+        </ul>
+    </div>
+    <!-- Toggle Button -->
+    <button class="toggle-btn" id="toggle-btn">☰</button>
+    <!-- Main Content -->
+    <div class="content" id="content">
+        <h1>Welcome to the Doctor Dashboard</h1>
+        <div id="add-patient">
+            <h3>Add Patient</h3>
+            <!-- Form for adding patients -->
+        </div>
+
+        <div id="add-medicine">
+            <h3>Add Medicine</h3>
+            <!-- Form for adding medicine -->
+        </div>
+
+        <div id="assign-dosage">
+            <h3>Assign Dosage</h3>
+            <!-- Form for assigning dosage -->
+        </div> {% endcomment %}
+        
+    <div class="dashboard-header">
+        <h1>Welcome, Dr. {{ doctor.name }}</h1>
+        <p>Manage your patients, medicines, and messages from here.</p>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Statistics -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4>Total Patients</h4>
+                        <p class="display-6">{{ total_patients }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4>Total Medicines</h4>
+                        <p class="display-6">{{ total_medicines }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <h4>Recent Messages</h4>
+                        <ul>
+                            {% for message in recent_messages %}
+                            <li>{{ message.content }} - {{ message.timestamp|date:"d M, Y H:i" }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Patients Section -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <h3>My Patients</h3>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for patient in patients %}
+                        <tr>
+                            <td>{{ patient.name }}</td>
+                            <td>{{ patient.email }}</td>
+                            <td>
+                                <a href="#" class="btn btn-sm btn-primary">View</a>
+                                <a href="#" class="btn btn-sm btn-secondary">Assign Medicine</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% comment %} <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            content.classList.toggle('with-sidebar');
+        });
+    </script> {% endcomment %}
+</body>
+{% endblock %}

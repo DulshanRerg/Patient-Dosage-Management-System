@@ -1,0 +1,230 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.19/css/intlTelInput.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body, html {
+            display: flex;
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+        footer{
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            backdrop-filter: blur(100px);
+            width: 250px;
+            height: 100vh;
+            background: #343a40;
+            color: white;
+            position: fixed;
+            left: -250px;
+            transition: left 0.3s ease;
+            z-index: 1000;
+            padding-top: 50px;
+        }
+
+        .sidebar.show {
+            left: 0;
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar ul li {
+            padding: 15px;
+            border-bottom: 1px solid #495057;
+        }
+
+        .sidebar ul li a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .sidebar ul li.active a {
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            padding: 5px 10px;
+        }
+
+        /* Content Styles */
+        .content {
+            flex-grow: 1;
+            flex: 1;
+            margin-left: 0;
+            transition: margin-left 0.3s ease;
+            padding: 20px;
+            width: 100%;
+        }
+
+        .content.with-sidebar {
+            margin-left: 250px;
+        }
+
+        /* Toggle Button */
+        .toggle-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .toggle-btn:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+<div class="sidebar" id="sidebar">
+    <ul>
+        <!-- Dashboard -->
+        <li class="{% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+            <a href="{% url 'dashboard' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M4 10h2m6 4H5m6-8h7M5 16h2m4-4h4" />
+                </svg>
+                Dashboard
+            </a>
+        </li>
+
+        <!-- Add Patient -->
+        <li class="{% if request.resolver_match.url_name == 'add-patient' %}active{% endif %}">
+            <a href="{% url 'add-patient' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                </svg>
+                Add Patient
+            </a>
+        </li>
+
+        <!-- Add Medicine -->
+        <li class="{% if request.resolver_match.url_name == 'add-medicine' %}active{% endif %}">
+            <a href="{% url 'add-medicine' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l6 6m-6 0l6-6m6-3H3" />
+                </svg>
+                Add Medicine
+            </a>
+        </li>
+
+        <!-- Assign Dosage -->
+        <li class="{% if request.resolver_match.url_name == 'assign-dosage' %}active{% endif %}">
+            <a href="{% url 'assign-dosage' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l4 4m0-4l-4 4m16-4a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Assign Dosage
+            </a>
+        </li>
+
+        <!-- Send Messages -->
+        <li class="{% if request.resolver_match.url_name == 'send-messages' %}active{% endif %}">
+            <a href="{% url 'send-messages' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 16h14M5 12h14" />
+                </svg>
+                Send Messages
+            </a>
+        </li>
+
+        <!-- Logout -->
+        <li class="{% if request.resolver_match.url_name == 'logout' %}active{% endif %}">
+            <a href="{% url 'logout' %}">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12H3m12-8v16m0-8l4 4m-4-4l4-4" />
+                </svg>
+                Logout
+            </a>
+        </li>
+    </ul>
+</div>
+
+<style>
+    .icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+        vertical-align: middle;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar ul li {
+        padding: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .sidebar ul li a {
+        text-decoration: none;
+        color: black;
+        display: flex;
+        align-items: center;
+    }
+
+    .sidebar ul li.active a {
+        color: #375439;
+        font-weight: bold;
+    }
+
+    .sidebar ul li a:hover {
+        color: #0056b3;
+    }
+</style>
+
+
+    <!-- Toggle Button -->
+    <button class="toggle-btn mt-0" id="toggle-btn">☰</button>
+
+    <!-- Main Content -->
+    <div class="content" id="content">
+        {% block content %}
+        <!-- Content goes here -->
+        {% endblock %}
+    </div>
+
+    <script>
+        const toggleBtn = document.getElementById('toggle-btn');
+        const sidebar = document.getElementById('sidebar');
+        const content = document.getElementById('content');
+
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+            {% comment %} content.classList.toggle('with-sidebar'); {% endcomment %}
+        });
+    </script>
+    <footer>
+        <p>&copy; iPhytos Company Ltd 2024. All rights reserved.</p>
+    </footer>
+</body>
+</html>
