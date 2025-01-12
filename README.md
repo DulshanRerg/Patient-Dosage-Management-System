@@ -15,8 +15,8 @@ This project is a Django-based web application for tracking patient dosages, man
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/dose-tracking.git
-    cd dose-tracking
+    git clone https://github.com/DulshanRerg/Patient-Dosage-Management-System.git
+    cd Patient-Dosage-Management-System
     ```
 
 2. Create and activate a virtual environment:
